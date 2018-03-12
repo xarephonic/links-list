@@ -10,10 +10,10 @@ class List extends Component {
 		} = this.props
 		return (
 			<div>
-				<Link to='/addItem'>ADD ITEM</Link>
-				{typeof(linksList) == "array" &&
+				<Link to='/additem'>ADD ITEM</Link>
+				{linksList.length &&
 					linksList.map(obj => {
-						return <ListItem {...obj} />
+						return <ListItem {...obj} key={obj.title} />
 					})
 				}
 			</div>

@@ -9,6 +9,7 @@ import createBrowserHistory from 'history/createBrowserHistory';
 import { saveState, loadState } from '../storageManager.js';
 import List from './links-list/List.js';
 import AddItem from './add-items/AddItem.js';
+import NoMatch from './nomatch/NoMatch.js';
 
 
 const history = createBrowserHistory();
@@ -28,13 +29,12 @@ class App extends Component {
               component={List}
             />
             <Route
-              path='/'
-              component={List}
-            />
-            <Route
               exact
               path='/additem'
               component={AddItem}
+            />
+            <Route
+              component={NoMatch}
             />
           </Switch>
         </Router>
