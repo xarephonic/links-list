@@ -1,15 +1,15 @@
 import React from 'react';
 
 const ListItem = ({
-  title = '',
+  name = '',
   url = '',
   points = ''
 }) => (
-  <div>
-    <div>{title}</div>
+  <li>
+    <div>{name}</div>
     <a href={url}>{url}</a>
     <div>{points}</div>
-  </div>
+  </li>
 );
 
 export default ListItem;

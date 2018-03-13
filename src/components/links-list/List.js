@@ -11,11 +11,13 @@ class List extends Component {
 		return (
 			<div>
 				<Link to='/additem'>ADD ITEM</Link>
-				{linksList.length &&
-					linksList.map(obj => {
-						return <ListItem {...obj} key={obj.title} />
+				<ul>
+				{linksList.linksArr &&
+					linksList.linksArr.map(linkItem => {
+						return <ListItem {...linkItem} key={linkItem.name+linkItem.url+linkItem.points} />
 					})
 				}
+				</ul>
 			</div>
 		);
 	}
