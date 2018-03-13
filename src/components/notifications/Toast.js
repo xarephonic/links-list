@@ -8,33 +8,46 @@ class Toast extends Component {
       autoHideTime: 5000
     });
   }
-  componentWillReceiveProps() {
+  componentWillReceiveProps(nextProps) {
     if(this.state.hideTimeout) {
       clearTimeout(this.state.hideTimeout);
+      this.setState({
+        ...this.state,
+        hideTimeout: undefined
+      });
     }
 
-    const newHideTimeoutId = setTimeout(() => {
-      this.props.dispatch(hideToast());
-    }, this.state.autoHideTime);
+    if(nextProps.notification.showToast) {
+      const newHideTimeoutId = setTimeout(() => {
+        this.props.dispatch(hideToast());
+      }, this.state.autoHideTime);
 
-    this.setState({
-      ...this.state,
-      hideTimeout: newHideTimeoutId
-    });
+      this.setState({
+        ...this.state,
+        hideTimeout: newHideTimeoutId
+      });
+    }
   }
 
   render() {
     const {
-      notification = null
+      dispatch,
+      notification: {
+        showToast,
+        toast
+      }
     } = this.props;
-    return notification && (
-      <div>{notification.message}</div>
-    );
+    return showToast ? (
+      <div>
+        <button onClick={() => { dispatch(hideToast()) } }>X</button>
+        <div>{toast.message}</div>
+      </div>
+    ) : null;
   }
 }
 
 const mapStateToProps = (state) => ({
-  notification: state.notification.toast
+  notification: state.notification
 });
 
 export default connect(mapStateToProps)(Toast);
