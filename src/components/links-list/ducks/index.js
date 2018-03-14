@@ -16,7 +16,7 @@ const reducer = (state = { orderMode: -1 }, { type, payload }) => {
   let linksArr = [];
   switch (type) {
     case GET_LIST_PAGE:
-      linksArr = state.linksArr;
+      linksArr = state.linksArr || [];
       const currentPage = linksArr.slice(itemsPerPage * payload, itemsPerPage * payload + itemsPerPage);
       const availablePages = Math.ceil(linksArr.length / itemsPerPage);
       return {
@@ -26,7 +26,7 @@ const reducer = (state = { orderMode: -1 }, { type, payload }) => {
         availablePages
       }
     case UPVOTE:
-      linksArr = state.linksArr;
+      linksArr = state.linksArr || [];
       const upvotedIndex = linksArr.findIndex((item) => linkItemComparator(item, payload));
       upvotedIndex !== -1 && linksArr[upvotedIndex].points++;
       if(state.orderMode !== "-1" && state.orderMode !== undefined) {
@@ -37,7 +37,7 @@ const reducer = (state = { orderMode: -1 }, { type, payload }) => {
         linksArr
       };
     case DOWNVOTE:
-      linksArr = state.linksArr;
+      linksArr = state.linksArr || [];
       const downvotedIndex = linksArr.findIndex((item) => linkItemComparator(item, payload));
       downvotedIndex !== -1 && linksArr[downvotedIndex].points--;
       if(state.orderMode !== "-1" && state.orderMode !== undefined) {
@@ -54,7 +54,7 @@ const reducer = (state = { orderMode: -1 }, { type, payload }) => {
         linksArr
       };
     case REMOVE_ITEM:
-      linksArr = state.linksArr;
+      linksArr = state.linksArr || [];
       const indexToRemove = linksArr.findIndex((item) => linkItemComparator(item, payload));
       indexToRemove !== -1 && linksArr.splice(indexToRemove, 1);
       return {
