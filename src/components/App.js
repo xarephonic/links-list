@@ -29,7 +29,7 @@ class App extends Component {
             <Switch>
               <Route
                 exact
-                path='/list'
+                path='/'
                 component={List}
               />
               <Route

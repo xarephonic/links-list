@@ -37,7 +37,7 @@ class AddItem extends Component {
 	render() {
 		return(
 			<div>
-				<Link to="/list">Back to List</Link>
+				<Link to="/">Back to List</Link>
 				<h2>Add New Link</h2>
 				<form onSubmit={this.handleSubmit}>
 					<label htmlFor='link-name'>Link Name</label>

@@ -76,7 +76,7 @@ export const upvote = (payload) => {
     });
 
     dispatch(
-      orderBy(getState().linksList.orderMode || -1)
+      orderBy(getState().linksList.orderMode || "-1")
     );
   };
 }
@@ -89,7 +89,7 @@ export const downvote = (payload) => {
     });
 
     dispatch(
-      orderBy(getState().linksList.orderMode || -1)
+      orderBy(getState().linksList.orderMode || "-1")
     );
   };
 };
@@ -131,7 +131,7 @@ export const addItem = (payload) => {
       })
     );
     dispatch(
-      orderBy(getState().linksList.orderMode || -1)
+      orderBy(getState().linksList.orderMode || "-1")
     );
   }
 };
