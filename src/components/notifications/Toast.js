@@ -2,6 +2,8 @@ import React,{ Component } from 'react';
 import { connect } from 'react-redux';
 import { hideToast } from './ducks/index.js';
 
+import { Button, Glyphicon, Alert } from 'react-bootstrap';
+
 class Toast extends Component {
   componentDidMount() {
     this.setState({
@@ -38,10 +40,12 @@ class Toast extends Component {
       }
     } = this.props;
     return showToast ? (
-      <div>
-        <button onClick={() => { dispatch(hideToast()) } }>X</button>
+      <Alert bsStyle={toast.color}>
         <div>{toast.message}</div>
-      </div>
+        <Button onClick={() => { dispatch(hideToast()) } }>
+          <Glyphicon glyph="glyphicon glyphicon-remove" />
+        </Button>
+      </Alert>
     ) : null;
   }
 }

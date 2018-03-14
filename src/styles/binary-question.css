@@ -1,0 +1,8 @@
+.binary-question {
+  position: absolute;
+  top: 30%;
+  left: 25%;
+  right: 25%;
+  z-index: 1;
+
+}

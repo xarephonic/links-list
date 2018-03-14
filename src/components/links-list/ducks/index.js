@@ -12,10 +12,19 @@ const linkItemComparator = (linkObjA, linkObjB) => {
 }
 
 const reducer = (state = { orderMode: -1 }, { type, payload }) => {
+  const itemsPerPage = 5;
   let linksArr = [];
   switch (type) {
     case GET_LIST_PAGE:
-      return state;
+      linksArr = state.linksArr;
+      const currentPage = linksArr.slice(itemsPerPage * payload, itemsPerPage * payload + itemsPerPage);
+      const availablePages = Math.ceil(linksArr.length / itemsPerPage);
+      return {
+        ...state,
+        currentPageInd: payload,
+        currentPage,
+        availablePages
+      }
     case UPVOTE:
       linksArr = state.linksArr;
       const upvotedIndex = linksArr.findIndex((item) => linkItemComparator(item, payload));
@@ -78,6 +87,10 @@ export const upvote = (payload) => {
     dispatch(
       orderBy(getState().linksList.orderMode || "-1")
     );
+
+    dispatch(
+      getListPage(getState().linksList.currentPageInd)
+    );
   };
 }
 
@@ -90,6 +103,10 @@ export const downvote = (payload) => {
 
     dispatch(
       orderBy(getState().linksList.orderMode || "-1")
+    );
+
+    dispatch(
+      getListPage(getState().linksList.currentPageInd)
     );
   };
 };
@@ -111,7 +128,7 @@ export const addItem = (payload) => {
         dispatch(
           showToast({
             message: `The item you are trying to add already exists as ${existingLink.name} - ${existingLink.url}`,
-            color: 'red'
+            color: 'danger'
           })
         );
         return;
@@ -137,11 +154,11 @@ export const addItem = (payload) => {
 };
 
 export const removeItem = (payload) => {
-  return (dispatch) => {
+  return (dispatch, getState) => {
     dispatch(
       showToast({
           message: `${payload.name} deleted`,
-          color: 'green'
+          color: 'success'
       })
     );
 
@@ -149,6 +166,10 @@ export const removeItem = (payload) => {
       type: REMOVE_ITEM,
       payload
     });
+
+    dispatch(
+      getListPage(getState().linksList.currentPageInd)
+    );
   }
 };
 

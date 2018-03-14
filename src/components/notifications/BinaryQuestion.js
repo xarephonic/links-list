@@ -1,6 +1,9 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
+import '../../styles/binary-question.css';
+import { Alert } from 'react-bootstrap';
+
 class BinaryQuestion extends Component {
   render() {
     const {
@@ -10,7 +13,7 @@ class BinaryQuestion extends Component {
       }
     } = this.props;
     return showBinaryQuestion ? (
-      <div>
+      <Alert bsStyle="warning" className="binary-question">
         <div>{binaryQuestion.message}</div>
         <button onClick={binaryQuestion.onYesClick}>
           {binaryQuestion.yesText}
@@ -18,7 +21,7 @@ class BinaryQuestion extends Component {
         <button onClick={binaryQuestion.onNoClick}>
           {binaryQuestion.noText}
         </button>
-      </div>
+      </Alert>
     ) : null;
   }
 }
