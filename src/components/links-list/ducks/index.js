@@ -5,37 +5,94 @@ const UPVOTE = '@fatih/links-list/UPVOTE';
 const DOWNVOTE = '@fatih/links-list/DOWNVOTE';
 const ADD_ITEM = '@fatih/links-list/ADD_ITEM';
 const REMOVE_ITEM = '@fatih/links-list/REMOVE_ITEM';
+const ORDER_BY = '@fatih/links-list/ORDER_BY';
 
-const reducer = (state = {}, { type, payload }) => {
+const linkItemComparator = (linkObjA, linkObjB) => {
+  return linkObjA.name === linkObjB.name && linkObjA.url === linkObjB.url && linkObjA.points === linkObjB.points
+}
+
+const reducer = (state = { orderMode: -1 }, { type, payload }) => {
+  let linksArr = [];
   switch (type) {
     case GET_LIST_PAGE:
       return state;
     case UPVOTE:
-      return state;
+      linksArr = state.linksArr;
+      const upvotedIndex = linksArr.findIndex((item) => linkItemComparator(item, payload));
+      upvotedIndex !== -1 && linksArr[upvotedIndex].points++;
+      if(state.orderMode !== "-1" && state.orderMode !== undefined) {
+        linksArr.unshift(...linksArr.splice(upvotedIndex, 1));
+      }
+      return {
+        ...state,
+        linksArr
+      };
     case DOWNVOTE:
-      return state;
+      linksArr = state.linksArr;
+      const downvotedIndex = linksArr.findIndex((item) => linkItemComparator(item, payload));
+      downvotedIndex !== -1 && linksArr[downvotedIndex].points--;
+      if(state.orderMode !== "-1" && state.orderMode !== undefined) {
+        linksArr.unshift(...linksArr.splice(upvotedIndex, 1));
+      }
+      return {
+        ...state,
+        linksArr
+      };
     case ADD_ITEM:
-      const linksArr = state.linksArr ? [payload].concat(state.linksArr) : [payload];
+      linksArr = state.linksArr ? [payload].concat(state.linksArr) : [payload];
       return {
         ...state,
         linksArr
       };
     case REMOVE_ITEM:
-      return state;
+      linksArr = state.linksArr;
+      const indexToRemove = linksArr.findIndex((item) => linkItemComparator(item, payload));
+      indexToRemove !== -1 && linksArr.splice(indexToRemove, 1);
+      return {
+        ...state,
+        linksArr
+      };
+    case ORDER_BY:
+      linksArr = state.linksArr;
+      if(linksArr) {
+        payload === "0" && linksArr.sort((a, b) => { return b.points - a.points });
+        payload === "1" && linksArr.sort((a, b) => { return a.points - b.points });
+      }
+      return {
+        ...state,
+        linksArr,
+        orderMode: payload
+      };
     default:
       return state;
   }
 }
 
-export const upvote = (payload) => ({
-  type: UPVOTE,
-  payload
-});
+export const upvote = (payload) => {
+  return (dispatch, getState) => {
+    dispatch({
+      type: UPVOTE,
+      payload
+    });
 
-export const downvote = (payload) => ({
-  type: DOWNVOTE,
-  payload
-});
+    dispatch(
+      orderBy(getState().linksList.orderMode || -1)
+    );
+  };
+}
+
+export const downvote = (payload) => {
+  return (dispatch, getState) => {
+    dispatch({
+      type: DOWNVOTE,
+      payload
+    });
+
+    dispatch(
+      orderBy(getState().linksList.orderMode || -1)
+    );
+  };
+};
 
 export const getListPage = (payload) => ({
   type: GET_LIST_PAGE,
@@ -73,11 +130,19 @@ export const addItem = (payload) => {
         color: 'green'
       })
     );
+    dispatch(
+      orderBy(getState().linksList.orderMode || -1)
+    );
   }
 };
 
 export const removeItem = (payload) => ({
   type: REMOVE_ITEM,
+  payload
+});
+
+export const orderBy = (payload) => ({
+  type: ORDER_BY,
   payload
 });
 

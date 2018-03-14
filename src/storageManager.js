@@ -11,7 +11,11 @@ export const loadState = () => {
 
 export const saveState = (state) => {
   try {
-    const stateToSave = JSON.stringify(state);
+    const stateToSave = JSON.stringify({
+      linksList: {
+        linksArr: state.linksList.linksArr
+      }
+    });
     localStorage.setItem('state', stateToSave);
   } catch (err){
     console.error('Could not save state to storage');

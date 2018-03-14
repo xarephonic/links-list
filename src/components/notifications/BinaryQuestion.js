@@ -1,11 +1,9 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { hideBinaryQuestion } from './ducks/index.js';
 
 class BinaryQuestion extends Component {
   render() {
     const {
-      dispatch,
       notification: {
         showBinaryQuestion,
         binaryQuestion
@@ -13,8 +11,13 @@ class BinaryQuestion extends Component {
     } = this.props;
     return showBinaryQuestion ? (
       <div>
-        <button onClick={() => { dispatch(hideToast()) } }>X</button>
-        <div>{toast.message}</div>
+        <div>{binaryQuestion.message}</div>
+        <button onClick={binaryQuestion.onYesClick}>
+          {binaryQuestion.yesText}
+        </button>
+        <button onClick={binaryQuestion.onNoClick}>
+          {binaryQuestion.noText}
+        </button>
       </div>
     ) : null;
   }
@@ -24,4 +27,4 @@ const mapStateToProps = (state) => ({
   notification: state.notification
 });
 
-export default BinaryQuestion
+export default connect(mapStateToProps)(BinaryQuestion);
