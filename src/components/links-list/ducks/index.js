@@ -136,10 +136,21 @@ export const addItem = (payload) => {
   }
 };
 
-export const removeItem = (payload) => ({
-  type: REMOVE_ITEM,
-  payload
-});
+export const removeItem = (payload) => {
+  return (dispatch) => {
+    dispatch(
+      showToast({
+          message: `${payload.name} deleted`,
+          color: 'green'
+      })
+    );
+
+    dispatch({
+      type: REMOVE_ITEM,
+      payload
+    });
+  }
+};
 
 export const orderBy = (payload) => ({
   type: ORDER_BY,

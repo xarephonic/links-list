@@ -1,0 +1,10 @@
+.list-item-inner:hover > .remove-button, .remove-button:hover {
+  display: inline-block;
+}
+
+.list-item-inner .remove-button {
+  display: none;
+  position: absolute;
+  right: 0;
+  top: 0;
+}
