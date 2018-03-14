@@ -42,15 +42,10 @@ class List extends Component {
 				</header>
 				<Grid fluid>
 					<Row>
-						<Col sm={12}>
-							<Link to='/additem'>ADD NEW LINK</Link>
-						</Col>
-					</Row>
-					<Row>
 						<Col sm={2}>
 							<span>Order By:</span>
 						</Col>
-						<Col xs={2}>
+						<Col sm={2}>
 							<select onChange={(event) => {
 								dispatch(
 									orderBy(event.target.value)
@@ -63,6 +58,9 @@ class List extends Component {
 								<option value={0}>Most to Least Points</option>
 								<option value={1}>Least to Most Points</option>
 							</select>
+						</Col>
+						<Col sm={2} smOffset={6}>
+							<Link to='/additem'>ADD NEW LINK</Link>
 						</Col>
 					</Row>
 					<Row>

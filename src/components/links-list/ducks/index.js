@@ -144,7 +144,7 @@ export const addItem = (payload) => {
     dispatch(
       showToast({
         message: `${payload.name} added.`,
-        color: 'green'
+        color: 'success'
       })
     );
     dispatch(
