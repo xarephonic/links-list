@@ -41,7 +41,7 @@ const reducer = (state = { orderMode: -1 }, { type, payload }) => {
       const downvotedIndex = linksArr.findIndex((item) => linkItemComparator(item, payload));
       downvotedIndex !== -1 && linksArr[downvotedIndex].points--;
       if(state.orderMode !== "-1" && state.orderMode !== undefined) {
-        linksArr.unshift(...linksArr.splice(upvotedIndex, 1));
+        linksArr.unshift(...linksArr.splice(downvotedIndex, 1));
       }
       return {
         ...state,
